@@ -1,0 +1,263 @@
+---
+title: "Evidencia_2.Rmd"
+author: "Alejandro Santiago Baca Eyssautier - A01656580"
+date: "`r Sys.Date()`"
+output: html_document
+---
+ 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align="center")
+library("seqinr")
+library("ggplot2")
+```
+
+## PARTE 1
+En un video, responde justificadamente las siguientes preguntas:
+
+1.	¿Cuáles son los virus “similares” a SARS-CoV-2 en el mundo? Obtén tus referencias de PUBMED.
+2.	¿Cuáles son los coronavirus reportados en otras especies que pueden ser cercanos al genoma de SARS-CoV-2? Incluye de qué especies son y menciona las referencias de los artículos consultados en PUBMED.
+3.	En relación con la situación actual reflexiona, ¿qué propondrías que se deba hacer durante la contingencia del SARS-CoV-2 en comunidades de bajos recursos? Si tu vivieras en una situación de escasos recursos, ¿qué harías? Justifica tu respuesta.
+
+<center>
+Enlace al video en respuesta a los incisos: [Evidencia 1 - Parte 1. Respuestas](https://youtu.be/s94Nah_IArk)
+</center>
+
+## PARTE 2
+Realiza lo siguiente en un script de R y código:
+
+1.	De las siguientes tres opciones, selecciona una opción para investigar: <br>
+    a)	Analizar las secuencias de SARS-CoV-2 reportadas en los 20 países con más casos reportados. Y puedes tratar de responder a la pregunta: ¿Son muy diferentes las variantes entre cada país? ¿Es diferente el SARS-CoV-2 entre las diferentes poblaciones: Asiática, Hispana,  Europea o Africana?
+    b)	Trabajar con las secuencias de los coronavirus de otras especies que son similares a SARS-CoV-2, para tratar de explicar el fenómeno de zoonosis del virus. Incluye 20 especies reportadas. Puedes trabajar con variantes de SARS-CoV-2 de otros países.
+    c)	Estudia la cercanía de SARS-CoV-2 con otros coronavirus humanos que ocasionan enfermedades similares (como MERS). En tu investigación debes trabajar con 20 virus diferentes. <br>
+
+En este documento se abordará la **opción a)**, de esta forma, se conducirá la investigación hacia el hallazgo de implicaciones importantes para la comprensión global de la propagación y evolución del SARS-Cov-2, así como para la identificación de posibles factores genéticos que influyen en la susceptibilidad a la infección y la gravedad de la enfermedad. Para efectos de ello, se dividió la investigación en 2 partes. <br>
+
+<br>
+Lo primero fue analizar la situación global del virus por región para encontrar los 20 países con más casos reportados hasta la actualidad, al igual que, identificar el periodo con más casos y muertes derivados del virus en cada país; debido a que, este será el momento de interés para examinar. (WHO, 2023) (Ioannidis, 2022). 
+
+Posteriormente, se realizó la búsqueda del código de acceso en GenBank para cada secuencia completa a través del sitio *National Center for Biotechnology Information* basándonos en su fecha de recolección más cercana al momento más crítico del país previamente considerado. (NCBI, 2023)
+
+<br>
+De esta forma, la investigación concluyó con los siguientes datos obtenidos. En ella se representa el identificador de GenBank, el país observado, la variante extraída y su linaje pango; los cuales comprenden un periodo de Diciembre de 2021 - Febrero de 2022 conforme a su fecha de recolección, así como, se ordenan de manera descendente de acuerdo con la cantidad total de casos por país:
+
+<ol> 
+  <li>"OQ815936" USA, Ómicron(BA.1.15).</li>
+  <li>"OP295751" India, Ómicron(BA.2.10).</li>
+  <li>"ON267175" Francia, Ómicron(BA.1.17).</li>
+  <li>"OX448993" Alemania, Ómicron(BA.1.17).</li>
+  <li>"OQ522833" Brasil, Gamma(P.1.7)</li>
+  <li>"BS004840" Japón, Ómicron(BA.2.10).</li>
+  <li>"ON797392" Corea del Sur, Ómicron(BA.2.3.12).</li>
+  <li>"ON507039" Italia, Ómicron(BA.1.17).</li>
+  <li>"OX490613" Reino Unido, Ómicron (BA.1.17).</li>
+  <li>"OQ318440" Rusia, Ómicron(BA.1.1).</li>
+  <li>"OM945722" Turquía, Ómicron(BA.1).</li>
+  <li>"ON115270" España, Ómicron(BA.1.17).</li>
+  <li>"OP317472" Vietnam, Ómicron(BA.2.3.2).</li>
+  <li>"ON819429" Australia, Ómicron(BA.1.17).</li>
+  <li>"OP825138" Taiwan, Ómicron(BA.2.64).</li>
+  <li>"OL989098" Argentina, Gamma(P.1.15). </li>
+  <li>"OM287553" Países Bajos, Ómicron(BA.1.19).</li>
+  <li>"OQ088258" México, Ómicron(BA.1.15).</li>
+</ol> 
+Cabe señalar que Irán e Indonesia fueron omitidos, debido a que no se localizó la suficiente información pública que se requiere para la investigación; pues no se encuentra disponible ninguna secuencia de SARS-Cov-2 en el sitio de NCBI. Resultando en un total de 18 secuencias por analizar. (NCBI, 2023) <br>
+
+<br>
+A continuación, se tratará de responder a las siguientes preguntas:
+
+-   ¿Son muy diferentes las variantes entre cada país? <br>
+-   ¿Es diferente el SARS-CoV-2 entre las diferentes poblaciones: Asiática, Hispana,  Europea o Africana? <br>
+
+En realidad, es imposible determinar si existe o no una diferencia entre las secuencias por región o población sin realizar los análisis pertinentes. Sin embargo, se proponen este par de preguntas como objetivo principal de la investigación; por lo que se retomarán al concluirla. <br>
+
+<br>
+Hasta este momento, se infiere que las secuencias podrían diferir mayormente conforme a la distancia entre sus pobladores aumenta, de esta forma, se esperaría que las secuencias de España y Francia sean similares, mientras que las de Argentina y Taiwan se diferencien en mayor medida. Por lo tanto, se plantea la siguiente hipótesis por comprobar como finalidad del estudio a realizar: <br>
+A una mayor distancia entre el origen de recolección de las secuencias de SARS-Cov-2, menor será la similitud entre las mismas. <br>
+
+<br>
+De forma que, si se encuentran diferencias significativas en las secuencias de SARS-CoV-2 entre los países, esto sugeriría que el virus ha evolucionado de manera diferente en diferentes partes del mundo. Por otro lado, si se encuentran pocas diferencias en las secuencias entre los países, esto significa que el virus se está propagando de manera uniforme en todo el mundo. <br>
+En cuanto a las diferencias entre las poblaciones asiática, hispana, europea y africana, si es que se encuentran diferencias significativas en las secuencias de SARS-CoV-2 esto sugeriría que los factores genéticos pueden estar influyendo en la evolución del virus y en la susceptibilidad a la infección y la gravedad de la enfermedad en diferentes poblaciones. Sin embargo, si no se encuentran dichas diferencias, entonces se concluiría que los factores genéticos pueden no estar influyendo en la propagación y evolución del virus. <br>
+
+<br>
+
+#### Carga de secuencias de SARS-Cov-2
+
+```{r librerias, include=FALSE}
+library(Biostrings)
+library(seqinr)
+library(ape)
+library(DECIPHER)
+library(ggplot2)
+```
+
+Lo primero que se realizará será cargar dichas secuencias extraídas directamente a partir de su identificador de GenBank dentro de un objeto en R. De tal manera que, por medio de modelos computacionales, nos permitirá examinar las secuencias y realizar un análisis de ellas.
+
+```{r carga de secuencias, echo=TRUE}
+SARS_Cov2_variants <- c("OQ815936","OP295751","ON267175","OX448993","OQ522833","BS004840","ON797392","ON507039","OX490613","OQ318440","OM945722","ON115270","OP317472","ON819429","OP825138","OL989098","OM287553","OQ088258") 
+SARS_Cov2_sequences <- read.GenBank(SARS_Cov2_variants)
+```
+<br>
+
+2.	Calcula el número de bases de cada secuencia que incluyas
+
+```{r longitudes}
+SARSCov_2_Nbases <- c()
+for (i in 1:length(SARS_Cov2_variants)){
+  cat("Tamaño de", SARS_Cov2_variants[i], ":", length(SARS_Cov2_sequences[[i]]), "\n")
+  SARSCov_2_Nbases <- c(SARSCov_2_Nbases, length(SARS_Cov2_sequences[[i]]))
+}
+```
+<br>
+
+3.	Crea una sola gráfica donde se comparen el número de bases de ADN que componen todas las variantes del virus. 
+
+```{r exportar FASTA}
+write.dna(SARS_Cov2_sequences,  file ="SARS_Cov2_seqs.fasta", format = "fasta", append =FALSE, nbcol = 6, colsep = " ", colw = 10)
+SARS_Cov2_sequences <- read.fasta("SARS_Cov2_seqs.fasta")
+```
+
+```{r gráfica}
+SARS_Cov2_nucleotides <- c()
+for (i in 1:length(SARS_Cov2_sequences)){
+  SARS_Cov2_nucleotides <- c(SARS_Cov2_nucleotides, count(SARS_Cov2_sequences[[i]],1))
+}
+
+SARS_Cov_2 <- data.frame(
+  Variante = rep(SARS_Cov2_variants, each = 4),
+  Nucleotido = rep(c("Adenina", "Citosina", "Guanina", "Timina"), length(SARS_Cov2_variants)),
+  Frecuencia = SARS_Cov2_nucleotides
+  )
+
+ggplot(data = SARS_Cov_2, aes(x=Variante, y=Frecuencia, fill= Nucleotido)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  ggtitle("Frecuencia de nucleótidos en diferentes variantes del SARS-CoV-2 por país") +
+  scale_fill_manual(values = c("lightcoral", "seagreen1", "turquoise2", "tan1")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 12),
+        axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  facet_grid(Nucleotido ~ .)
+```
+
+<br>
+La gráfica muestra la frecuencia de los cuatro tipos de nucleótidos (Adenina, Citosina, Guanina y Timina) para diferentes variantes del virus SARS-CoV-2 en distintos países. En el eje X se encuentran las variantes del virus, y en el eje Y se muestra la frecuencia de los nucleótidos. La gráfica está dividida en cuatro filas, correspondientes a los cuatro tipos de nucleótidos, que a su vez se representan con diferentes colores identificados en la leyenda mostrada del lado derecho. La gráfica está diseñada para mostrar la frecuencia relativa de cada nucleótido dentro de cada variante del virus y demostrar diferencias en función del país en el que fue recolectada. <br>
+
+<br>
+De manera general, se puede observar que la proporción de los nucleótidos es muy similar entre las diferentes variantes, lo que sugiere que todas ellas son derivadas del mismo virus (SARS-Cov-2) y pertenecen a una familia (Coronaviridae) con una estructura genética muy similar. Es por esta razón, que los síntomas que presenta un huésped son en su mayoría los mismos para cada variante de COVID-19 contraída, aunque con diversas variaciones en su intensidad. <br>
+Si bien, la gráfica puede ayudar a visualizar y comparar estas proporciones entre diferentes variantes, lo cual es importante para el estudio de la evolución del virus y para la identificación de posibles tratamientos y vacunas efectivas, cabe señalar que esta no ofrece información adicional sobre la virulencia, propagación o características específicas de cada variante en sí misma dependiendo del país en que se encontró. <br> 
+
+<br> 
+Sin embargo, es importante tener en cuenta que incluso pequeñas diferencias en la proporción de nucleótidos pueden tener un gran impacto en la capacidad de un virus para infectar a las personas y propagarse. Por ejemplo, la variante Delta del COVID-19 ha demostrado ser más transmisible que otras variantes, lo que podría estar relacionado con mutaciones en la proteína de la espícula que le permite al virus unirse y penetrar las células humanas. Además, algunas variantes pueden tener mutaciones que afectan a otras proteínas del virus, como la proteína de la nucleocápside, que podrían influir en la gravedad de la enfermedad o la respuesta inmunitaria del cuerpo. (Planas, Veyer, & Baidaliuk, 2021) <br> 
+Por lo tanto, aunque las variantes puedan parecer similares en términos de proporción de nucleótidos, aún pueden tener diferencias significativas en términos de su patogenicidad y transmisibilidad. Y es por ello, que nos interesa realizar un arbol filogenético con el cual podamos asociar estas mínimas diferencias con la región o país en que se transmite el virus.<br>
+
+<br>
+
+4.	Agrega un análisis jerárquico global obtenido de las secuencias que se seleccionaron para estudiar.
+
+Un análisis jerárquico global se realiza por medio de la interpretación de un árbol filogenético, el cual se obtendrá a partir de 4 etapas:
+
+- Lo primero, es exportar nuestras secuencias obtenidas hacia el formato de interés, en este caso, se utilizará el formato FASTA. De modo que, leeremos el archivo y lo visualizaremos para realizar el alineamiento correspondiente.
+
+```{r leer FASTA, warning = FALSE}
+# La secuencia fue exportada previamente para realizar la primera gráfica, por lo que únicamente se carga.
+seq_not_align <- readDNAStringSet("SARS_Cov2_seqs.fasta", format = "fasta")
+seq_not_align
+```
+<br>
+
+- A continuación, se realizará un alineamiento múltiple por medio de la reconstrucción filogenética, con el objetivo de encontrar las posiciones homólogas, así como, un antepasado común.
+
+```{r alineamiento, include=FALSE}
+seq_align <- AlignSeqs(OrientNucleotides(seq_not_align))
+```
+```{r}
+# El proceso del alineamiento no se muestra para una mejor optimización del documento
+seq_align
+```
+<br>
+
+- Lo siguiente será exportar las nuevas secuencias alineadas en formato FASTA. Y del mismo modo, se leerá el archivo y se creará una matriz distancia, la cual nos permitirá realizar el arból filogenético deseado, así como, observar la similitud entre las secuencias.
+
+```{r exportar FASTA alineado, echo = TRUE}
+writeXStringSet(seq_align, file="SARS_Cov2_seqs_align.fasta")
+SARS_Cov2_align <- read.alignment("SARS_Cov2_seqs_align.fasta", format = "fasta")
+SARS_Cov2_align <- dist.alignment(SARS_Cov2_align, matrix = "similarity")
+```
+<br>
+
+- Finalmente, convertimos esa matriz distancia en un árbol filogenético y realizamos la gráfica correspondiente
+
+```{r árbol filogenético}
+SARS_Cov2_tree <- nj(SARS_Cov2_align)
+SARS_Cov2_tree <- ladderize(SARS_Cov2_tree)
+plot(SARS_Cov2_tree, cex = 0.7)
+title("Similitud Genética entre variantes poblacionales del SARS-Cov-2")
+axisPhylo(cex.axis=0.7)
+```
+<br>
+
+- A su vez, este puede representarse en términos de los países de donde fueron recolectadas las muestras del virus; lo cual facilita en gran medida su comprehensión y análisis.
+
+```{r árbol filogenético países}
+SARS_Cov2_tree$tip.label <- c("USA", "India", "Francia", "Alemania", "Brasil", "Japón", "Corea del Sur", "Italia", "Reino Unido", "Rusia", "Turquía", "España", "Vietnam", "Australia", "Taiwan", "Argentina", "Países Bajos", "México")
+plot(SARS_Cov2_tree, cex = 0.7)
+title("Similitud Genética entre variantes poblacionales del SARS-Cov-2")
+axisPhylo(cex.axis=0.7)
+```
+
+<br>
+Este árbol filogenético representa la relación evolutiva entre 18 variantes del SARS-Cov-2 que han sido analizadas; el cual tiene la intención de explicar la variabilidad genética conforme a las distancias entre sus grupos o nodos. Donde las distancias más grandes entre sus ramas sugieren que las secuencias de las variantes de diferentes regiones pueden tener una mayor diversidad genética dependiendo de su población y las características del entorno en que se desarrollan.<br>
+En él se pueden identificar tres grandes grupos que coresponden a cada región de donde se recolectaron las secuencias: el grupo de los países europeos, el grupo de los países asiáticos y el grupo de los países americanos (Argentina, Brasil, México y Estados Unidos). Dentro de cada grupo, las secuencias genéticas de los diferentes países tienen una mayor similitud entre ellas, lo que sugiere una mayor propagación local y menor variabilidad genética. <br>
+
+<br>
+En el análisis, se observa que las variantes que provienen de países europeos como Francia, Alemania, España, Italia, el Reino Unido y los Países Bajos, presentan una gran similitud genética, al igual que las variantes de países asiáticos como Japón, Corea del Sur, India, Taiwan y Vietnam. Mientras que las variantes de Argentina y Brasil se encuentran en una rama distinta, pero están más cercanas entre sí que a las variantes europeas o asiáticas. <br>
+De la misma forma, se percibe una menor similitud genética entre las variantes provenientes de diferentes regiones del mundo, es decir, las que se encuentran a una mayor distancia entre ellas. Por ejemplo, las variantes europeas están mucho menos relacionadas con las variantes asiáticas y sudamericana; y es por ello que se distancían mucho en el arból filogenético.<br>
+Esto demuestra que en efecto existe un factor común que causa la similitud genética entre las poblaciones más cercanas, no obstante, es fundamental continuar con el análisis para buscar más evidencias de ello.<br>
+
+<br>
+Por el otro lado, se identifica una gran cercanía entre los países norteamericanos: Estados Unidos y México. Lo cual se esperaba debido a su proximidad y relación tan cercana. Pues la migración, el comercio y la inversión es algo habitual entre las fronteras de ambos países.<br>
+De igual forma, se distingue a Australia entre los países Europeos, lo que podría implicar un error al momento de recolectar los datos, debido a que no existen muchas razones por las que pueda ser genéticamente similar a este grupo. No obstante, es importante mencionar que la similitud genética entre sus secuencias puede deberse no sólo a la localización geográfica de sus poblaciones, sino  a múltiples factores de propagación, transmisibilidad, y de intercambio cultural; mismos que se explicarán posteriormente/a continuación.<br>
+
+<br>
+Por último, se visualiza una alta similitud genética entre el grupo de países americano y europeo, el cual es un poco inesperado debido a la lejanía entre sus poblaciones. Sin embargo, como mencioné anteriormente, la propagación de un virus puede ser causada por cuestiones como la migración o el turismo, el comercio, y hasta la msima globalización. <br>
+Algunos factores que hay que tomar en cuenta para la transmisibilidad de una pandemia son los sistemas de salud y las medidas de prevención que cada gobierno implementa en su nación. Asimismo, las relaciones entre estos países, como los acuerdos de cooperación internacional, programas de cuidado del medio ambiente, y otros temas de interés bilateral, pueden influir en gran medida al intercambio cultural entre dos poblaciones; y por ende, al esparcimiento de un virus. (Abu-Hammad & Abu-Hammad, 2020) (Jean-Paul, 2023)<br>
+
+<br>
+
+## Conclusiones
+Con base en el análisis jerárquico realizado sobre las secuencias poblacionales del SARS-CoV-2 se concluye que sí existe una implicación en cuanto a la propagación del virus dependiendo de la localización geográfica de sus poblaciones. Por lo que la hipótesis presentada al comienzo de la investigación se declara como cierta, teniendo una relación donde a mayor cercanía entre el origen de recolección de las secuencias de SARS-Cov-2, mayor será la similitud entre las mismas.<br>
+Sin embargo, se identifica este como uno de los múltiples factores que afectan a la propagación del COVID-19, pues el comercio, migración, turismo, relaciones internacionales, acuerdos y medidas de prevención, contribuyen de igual forma al esparcimiento de un virus.<br>
+Retomando las pregunta iniciales del experimento, se responde que sí son diferentes las variantes de las regiones, Asiática, Hispana y Europea. No obstante, las secuencias genéticas son cercanas entre las poblaciones de cada región. <br>
+
+<br>
+Es importante destacar que este análisis de similitud genética puede ser utilizado para entender la propagación del virus en diferentes regiones del mundo, lo que puede tener implicaciones importantes en el control de la pandemia y su impacto en la salud pública a nivel mundial. Por ejemplo, si dos variantes del virus tienen una similitud genética alta, es probable que hayan surgido de un ancestro común, lo que sugiere que la propagación entre estas dos regiones puede ser más común y rápida. <br>
+Además, también puede ser útil para la identificación de nuevas variantes del virus y su posible origen geográfico. Si se identifica una nueva variante en una región donde no se han encontrado variantes similares, es posible que haya surgido localmente y que tenga un impacto en la propagación de la enfermedad en esa región. <br>
+
+<br>
+
+## Referencias
+
+<br>
+
+#### Información
+- Abu-Hammad, O., & Abu-Hammad, A. (2020). Factors Influencing Global Variations in COVID-19 Cases and Fatalities; A Review. Obtenido de Healthcare: https://doi.org/10.3390/healthcare8030216
+- Ioannidis, J. (2022). The end of the COVID-19 pandemic. Obtenido de John Wiley & Sons: https://doi.org/10.1111/eci.13782
+- Jean-Paul, R. (2023). Main Factors behind the Global Spread of Diseases. Obtenido de transportgeography.org: https://transportgeography.org/contents/applications/transportation-pandemics/main-factors-global-spread-diseases/
+- NCBI. (2023). SARS-CoV-2 Data Hub. Obtenido de www.ncbi.nlm.nih.gov: https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&VirusLineage_ss=taxid:2697049
+- Planas, D., Veyer, D., & Baidaliuk, A. (2021). Reduced sensitivity of SARS-CoV-2 variant Delta to antibody neutralization. Obtenido de www.nature.com: https://doi.org/10.1038/s41586-021-03777-9
+WHO. (2023). WHO Coronavirus (COVID-19) Dashboard. Obtenido de covid19.who.int: https://covid19.who.int/
+
+<br>
+
+#### Librerías
+
+- Pagès H, Aboyoun P, Gentleman R, DebRoy S (2023). _Biostrings: Efficient manipulation of biological strings_.
+  doi:10.18129/B9.bioc.Biostrings <https://doi.org/10.18129/B9.bioc.Biostrings>, R package version 2.68.0,
+  <https://bioconductor.org/packages/Biostrings>.
+- Charif, D. and Lobry, J.R. (2007)
+- Paradis E, Schliep K (2019). “ape 5.0: an environment for modern phylogenetics and evolutionary analyses in
+  R.” _Bioinformatics_, *35*, 526-528. doi:10.1093/bioinformatics/bty633
+  <https://doi.org/10.1093/bioinformatics/bty633>.
+- Wright ES (2016). “Using DECIPHER v2.0 to Analyze Big Biological Sequence Data in R.” _The R Journal_, *8*(1),
+  352-359.
+- H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+
